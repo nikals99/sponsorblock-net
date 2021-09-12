@@ -58,7 +58,14 @@ An single entry looks like this contains general information about a video as we
 ```
 
 ### Data split
+The data was split into training, validation and test sets (distribution: 70%, 20%, 10%). The splits respects channels so that channels only occur in one dataset to avoid overfitting. 
+To split the data yourself you first need to generate a list of all channels and their amount of videos. This can be done by first executing the following command inside of the ```data``` directory:
 
+```cat meta.json | jq ". [] | .channel_id" | sort | uniq -c | sort -nr > channels.txt```
+
+and then running ```python data_split.py``` inside the ```data_split``` directory. To ceck the distribution of the split execute:
+
+```cat <dataset_name>.json | jq  ". [] | .channel_id" | sort | uniq -c | sort -nr | wc -l```
 
 ## Training
 ### Bag of words
