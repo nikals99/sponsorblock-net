@@ -8,7 +8,7 @@ Uses SponsorBlock data licensed used under CC BY-NC-SA 4.0. More details: https:
 # Running the Project
 ## Directory structure
 ## Setup
-## Fetching Data
+## Data preparation
 ### Transcript Fetcher
 Transcriptfetcher downloads english transcripts and metadata for all video-urls provided in a ````videoids.txt````. The file should have 
 the following format
@@ -66,7 +66,8 @@ There are two bag of words based classifiers available (naive_bayes and logistic
 ```python naive_bayes_sk.py --train``` or ```python logistic_regression_sk.py --train```. Training generates a dump of the model which later can be used for evaluation. 
 
 ### BERT
-
+The BERT based model gets trained by pytorch lightning so running it is simple as well. To make sure you are running on the correct gpu (and only on one gpu) set the ```export CUDA_VISIBLE_DEVICES=<DEVICE_ID>``` environment variable.
+Then you can start training by running ```python classifier.py``` inside the ```bert``` directory. This trains your model and it in your current directory. When training you can choose the length of snippets given to BERT and if you want to finetune the Transformer layer.
 
 ## Evaluation and Demo
 
@@ -76,3 +77,7 @@ Both bag of words model provide an easy to use command line interface for evalua
 - ```python model.py --apply```: Apply the model to a single, randomly chosen video and print each snippet with ground truth + prediction. Pressing any key restarts the process with a new video
 - ```python model.py --validate_boxes```: Applies the model to all videos from the validation dataset and reports snippets sorted by sponsor probability
 - ```python model.py --validate_auto```: Applies the model to all videos from the validation dataset and reports precision, recall and f1 for various thresholds
+
+### BERT
+There are two different ways to evaluate your BERT based model. To view current metrics (precision, recall, f1) simply run the training and open tensorboard (```tensorboard --logdir ./lightning_logs```). In tensorboard the current metrics on the validation set are shown.
+The other way of evaluating BERT is through the ```evaluate.py``` script inside the ```bert``` directory. It behaves similar to the ```--apply``` function from the bag of words based models. 
