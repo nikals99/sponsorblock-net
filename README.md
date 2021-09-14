@@ -7,6 +7,18 @@ Uses SponsorBlock data licensed used under CC BY-NC-SA 4.0. More details: https:
 
 # Running the Project
 ## Directory structure
+### Video dataset
+The Video dataset is a directory that contains the video files as well as the corresponding metadata files. The structure is as follows:
+```
+data_video/
+  meta.json
+  training.json
+  validation.json
+  test.json
+  out/
+```
+The ```out/``` directory contains the downloaded videos in a tree like structure (i.e. ```out/000/000/000/<videoId>.webm```) and each entry in the metadata files contains a mapping from the videoId to the relative path of the video file.
+
 ## Setup
 ## Data preparation
 ### Transcript Fetcher
@@ -74,18 +86,18 @@ There are two bag of words based classifiers available (naive_bayes and logistic
 
 ### BERT
 The BERT based model gets trained by pytorch lightning so running it is simple as well. To make sure you are running on the correct gpu (and only on one gpu) set the ```export CUDA_VISIBLE_DEVICES=<DEVICE_ID>``` environment variable.
-Then you can start training by running ```python classifier.py``` inside the ```bert``` directory. This trains your model and it in your current directory. When training you can choose the length of snippets given to BERT and if you want to finetune the Transformer layer.
+Then you can start training by running ```python classifier.py``` inside the ```bert``` directory. This trains your model and saves it in your current directory. When training you can choose the length of snippets given to BERT and if you want to finetune the Transformer layer.
 
 ### Frame based classification
 The model to classify individual frames is based on pytorch lightning as well. To make sure you are running on the correct gpu (and only on one gpu) set the ```export CUDA_VISIBLE_DEVICES=<DEVICE_ID>``` environment variable.
 
 Before the training can be executed training-, validation-, and test data has to be preloaded from the video dataset. This can be done by configuring the parameters in ```video/preload.py``` and then running ```python video/preload.py <video_data_path>``` where ```<video_data_path>``` is the path to the directory that contains the metadata and video files. This will result in three pickle files containing the preloaded data.
 
-Training can then be started by running ```python video/main.py```.
+Training can then be started by running ```python video/main.py```. During training, pytorch lightning saves the best three models to ```./auto_model_checkpoints/```.
 
 You can also search for an optimal set of hyperparameters using [ray](https://ray.io) by running ```python video/tune_hyperparams.py```.
 
-## Evaluation and Demo
+## Evaluation
 
 ### Bag of Words
 Both bag of words model provide an easy to use command line interface for evaluation. Available options (replace model.py with ```naive_bayes_sk.py``` or ```logistic_regression_sk.py``` :
@@ -97,3 +109,8 @@ Both bag of words model provide an easy to use command line interface for evalua
 ### BERT
 There are two different ways to evaluate your BERT based model. To view current metrics (precision, recall, f1) simply run the training and open tensorboard (```tensorboard --logdir ./lightning_logs```). In tensorboard the current metrics on the validation set are shown.
 The other way of evaluating BERT is through the ```evaluate.py``` script inside the ```bert``` directory. It behaves similar to the ```--apply``` function from the bag of words based models. 
+
+### Frame based classification
+During the training of the frame based classification model log data is saved to ```./lightning_logs```. You can use tensorboard to view the logs by running ```tensorboard --logdir ./lightning_logs```.
+
+To evaluate a trained model further you can use the evaluation script in the ```evaulation/``` directory. This script evaluates both the BERT and frame based classification models as well as the fusioned result using precision, recall and F1 metrics. Additionally this script computes the ROC of all three models and saved the resulting data as well as a plot to the current directory. 
