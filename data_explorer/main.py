@@ -6,7 +6,7 @@ import random
 sys.path.append("..")
 
 from bert.slice_evaluator import SliceEvaluatorBert
-from video_extractor.videoevaluator import VideoEvaluator
+from video.videoevaluator import VideoEvaluator
 from flask import Flask, render_template, redirect
 
 app = Flask(__name__)
