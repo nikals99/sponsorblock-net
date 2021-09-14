@@ -76,6 +76,15 @@ There are two bag of words based classifiers available (naive_bayes and logistic
 The BERT based model gets trained by pytorch lightning so running it is simple as well. To make sure you are running on the correct gpu (and only on one gpu) set the ```export CUDA_VISIBLE_DEVICES=<DEVICE_ID>``` environment variable.
 Then you can start training by running ```python classifier.py``` inside the ```bert``` directory. This trains your model and it in your current directory. When training you can choose the length of snippets given to BERT and if you want to finetune the Transformer layer.
 
+### Frame based classification
+The model to classify individual frames is based on pytorch lightning as well. To make sure you are running on the correct gpu (and only on one gpu) set the ```export CUDA_VISIBLE_DEVICES=<DEVICE_ID>``` environment variable.
+
+Before the training can be executed training-, validation-, and test data has to be preloaded from the video dataset. This can be done by configuring the parameters in ```video/preload.py``` and then running ```python video/preload.py <video_data_path>``` where ```<video_data_path>``` is the path to the directory that contains the metadata and video files. This will result in three pickle files containing the preloaded data.
+
+Training can then be started by running ```python video/main.py```.
+
+You can also search for an optimal set of hyperparameters using [ray](https://ray.io) by running ```python video/tune_hyperparams.py```.
+
 ## Evaluation and Demo
 
 ### Bag of Words
