@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Predictions for {{videoId}}</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <h1>Video: {{videoId}}</h1>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <iframe id="video-frame" width="560" height="315" src="https://www.youtube.com/embed/{{videoId}}?start=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="row" style="border-bottom: 1px black">
+                <div class="col-md-4">
+                    <h3>Ground Truth</h3>
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Prediction Bert</h3>
+                </div>
+
+                <div class="col-md-4">
+                    <h3>Prediction Video</h3>
+                </div>
+            </div>
+        {% for i in range(0, videoDuration) %}
+            <div class="row" style="border-bottom: 1px black" onclick="skipToVideo({{i}})">
+                <div class="col-md-4" style="height: 5px;background-color: {{ 'green' if ground_truth[i] == 0 else 'red' }};">
+                    
+                </div>
+
+                <div class="col-md-4" style="height: 5px;background-color: {{ 'green' if predictions_bert[i] == 0 else 'red' }};">
+                    
+                </div>
+
+                <div class="col-md-4" style="height: 5px;background-color: {{ 'green' if predictions_video[i] == 0 else 'red' }};">
+                    
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script>
+        function skipToVideo(time) {
+            const videoUrl = "https://www.youtube.com/embed/{{videoId}}?autoplay=1&start="
+            document.getElementById("video-frame").src = videoUrl + time
+        }
+    </script>
+
+  </body>
+</html>

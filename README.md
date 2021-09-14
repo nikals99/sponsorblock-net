@@ -114,3 +114,9 @@ The other way of evaluating BERT is through the ```evaluate.py``` script inside 
 During the training of the frame based classification model log data is saved to ```./lightning_logs```. You can use tensorboard to view the logs by running ```tensorboard --logdir ./lightning_logs```.
 
 To evaluate a trained model further you can use the evaluation script in the ```evaulation/``` directory. This script evaluates both the BERT and frame based classification models as well as the fusioned result using precision, recall and F1 metrics. Additionally this script computes the ROC of all three models and saved the resulting data as well as a plot to the current directory. 
+
+# Data explorer
+Data explorer is a simple flask application that can be used to view and evaluate samples from the validation set. It can be run by executing ```run.sh``` inside of the ```data_explorer``` directory.
+Before running, make sure that you set your ````CUDA_VISIBLE_DEVICES```` correctly and have already trained both the video and the text based model. After starting data explorer simply open your browser at ```http://localhost:5543```.
+Data explorer will choose a random video which is shown at the top of the page. Below the video ground truth as well as predictions can be found. Each 5 pixels from top to bottom represents 1 second of the video
+with green being normal video and red being a sponsor segment.
