@@ -7,7 +7,16 @@ Uses SponsorBlock data licensed used under CC BY-NC-SA 4.0. More details: https:
 
 # Running the Project
 ## Directory structure
-### Video dataset
+
+- ```bag_of_words``` => bag of words based models (naive_bayes + logistic_regression)
+- ```bert``` => bert based model
+- ```data_explorer``` => flask application for visually evaluating each models performance
+- ```data_split``` => script for splitting data into training, validation and test sets
+- ```evaluation``` => script for evaluating each models performace on test data (metrics: precision, f1, recall)
+- ```transcript_fetcher``` => scripts for downloading transcripts and metadata from youtube
+- ```video``` => video based model
+
+#### Video dataset
 The Video dataset is a directory that contains the video files as well as the corresponding metadata files. The structure is as follows:
 ```
 data_video/
@@ -20,6 +29,11 @@ data_video/
 The ```out/``` directory contains the downloaded videos in a tree like structure (i.e. ```out/000/000/000/<videoId>.webm```) and each entry in the metadata files contains a mapping from the videoId to the relative path of the video file.
 
 ## Setup
+1. setup a virtualenv: ```python3 -m venv /path/to/new/virtual/environment```
+2. activate the virtual environment: ```source /path/to/new/virtual/environment/bin/activate```
+3. install all required packages: ```pip install -r requirements.txt```
+4. start with the data preperation steps below
+
 ## Data preparation
 ### Transcript Fetcher
 Transcriptfetcher downloads english transcripts and metadata for all video-urls provided in a ````videoids.txt````. The file should have 
@@ -113,7 +127,10 @@ The other way of evaluating BERT is through the ```evaluate.py``` script inside 
 ### Frame based classification
 During the training of the frame based classification model log data is saved to ```./lightning_logs```. You can use tensorboard to view the logs by running ```tensorboard --logdir ./lightning_logs```.
 
-To evaluate a trained model further you can use the evaluation script in the ```evaulation/``` directory. This script evaluates both the BERT and frame based classification models as well as the fusioned result using precision, recall and F1 metrics. Additionally this script computes the ROC of all three models and saved the resulting data as well as a plot to the current directory. 
+### Evaluation on test data
+To evaluate a trained model on the testdata you can use the evaluation script in the ```evaulation/``` directory. 
+This script evaluates both the BERT and frame based classification models as well as the fusioned result using precision, recall and F1 metrics.
+Additionally this script computes the ROC of all three models and saved the resulting data as well as a plot to the current directory. 
 
 # Data explorer
 Data explorer is a simple flask application that can be used to view and evaluate samples from the validation set. It can be run by executing ```run.sh``` inside of the ```data_explorer``` directory.
