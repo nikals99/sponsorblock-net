@@ -1,6 +1,5 @@
 # SponsorBlock Net
-This is the project repository of the SoSe 21 Machine Learning Project which aims to automatically
-recognize sponsored segments in YouTube videos.
+Advertising on YouTube used to be played as a separate video before, during or after the actual video. Since this is a separate video, conventional ad blockers can remove these videos. In the meantime, however, advertising is no longer just played in separately, but integrated directly into the actual video by the creators. So that these integrated advertising segments can still be skipped, the browser plugin SponsorBlock was developed. The basis for skipping a segment in a video is provided by manual markings of SponsorBlock users. In this work, we investigate whether the marking of advertising segments can be automated. 
 
 # Attribution
 Uses SponsorBlock data licensed used under CC BY-NC-SA 4.0. More details: https://sponsor.ajay.app/
