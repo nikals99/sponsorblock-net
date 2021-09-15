@@ -10,6 +10,7 @@ Uses SponsorBlock data licensed used under CC BY-NC-SA 4.0. More details: https:
 
 - ```bag_of_words``` => bag of words based models (naive_bayes + logistic_regression)
 - ```bert``` => bert based model
+- ```data_analysis``` => python notebook to analyze the data using pandas
 - ```data_explorer``` => flask application for visually evaluating each models performance
 - ```data_split``` => script for splitting data into training, validation and test sets
 - ```evaluation``` => script for evaluating each models performace on test data (metrics: precision, f1, recall)
@@ -35,6 +36,10 @@ The ```out/``` directory contains the downloaded videos in a tree like structure
 4. start with the data preperation steps below
 
 ## Data preparation
+### Analysis
+To analyze the data a python notebook is located in ```data_analysis/```. It is prepolutated with some metrics that have been used to determine the set of usable videos.
+
+
 ### Transcript Fetcher
 Transcriptfetcher downloads english transcripts and metadata for all video-urls provided in a ````videoids.txt````. The file should have 
 the following format
