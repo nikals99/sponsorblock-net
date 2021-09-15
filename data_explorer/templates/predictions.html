@@ -18,35 +18,40 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-5">
-                <iframe id="video-frame" width="560" height="315" src="https://www.youtube.com/embed/{{videoId}}?start=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
+            <iframe id="video-frame" width="960" height="540" src="https://www.youtube.com/embed/{{videoId}}?start=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <div class="row" style="border-bottom: 1px black">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h3>Ground Truth</h3>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h3>Prediction Bert</h3>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h3>Prediction Video</h3>
+                </div>
+
+                <div class="col-md-3">
+                    <h3>Prediction Fusion</h3>
                 </div>
             </div>
         {% for i in range(0, videoDuration) %}
             <div class="row" style="border-bottom: 1px black" onclick="skipToVideo({{i}})">
-                <div class="col-md-4" style="height: 5px;background-color: {{ 'green' if ground_truth[i] == 0 else 'red' }};">
-                    
+                <div class="col-md-3" style="height: 5px;background-color: {{ 'green' if ground_truth[i] < 0.5 else 'red' }};">
+
                 </div>
 
-                <div class="col-md-4" style="height: 5px;background-color: {{ 'green' if predictions_bert[i] == 0 else 'red' }};">
-                    
+                <div class="col-md-3" style="height: 5px;background-color: {{ 'green' if predictions_bert[i] < 0.5 else 'red' }};">
+
                 </div>
 
-                <div class="col-md-4" style="height: 5px;background-color: {{ 'green' if predictions_video[i] == 0 else 'red' }};">
-                    
+                <div class="col-md-3" style="height: 5px;background-color: {{ 'green' if predictions_video[i] < 0.6325 else 'red' }};">
+
+                </div>
+                <div class="col-md-3" style="height: 5px;background-color: {{ 'green' if predictions_fusion[i] < 0.5 else 'red' }};">
+
                 </div>
             </div>
         {% endfor %}

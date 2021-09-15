@@ -1,6 +1,7 @@
 import sys
 import json
 import random
+import torch
 
 # append the path of the parent directory
 sys.path.append("..")
@@ -70,7 +71,7 @@ def home():
 def predict_random():
     # pick a videoId from the smaller video dataset, this way we know that
     # it's present in the bigger bert dataset
-    videoid = random.choice(video_evaluator.fetcher.metadata)["id"]
+    videoid = random.choice(list(video_evaluator.fetcher.metadata.values()))["id"]
 
     # get metadata for the current videoid
     video = get_video_metadata(videoid, videos)
@@ -79,8 +80,11 @@ def predict_random():
     ground_truth = create_ground_truth(video)
 
     # get predictions from both models
-    predictions_bert = bert_evaluator.evaluate(video)
-    predictions_video = video_evaluator.evaluate(videoid)
+    predictions_bert = torch.tensor(bert_evaluator.evaluate(video))
+    predictions_video = torch.tensor(video_evaluator.evaluate(videoid)[:len(ground_truth)])
+
+    # weighted fusion of both models
+    predictions_fusion = (0.9 * predictions_bert) + (0.1 * predictions_video)
 
     # pass to render engine
     return render_template(
@@ -89,7 +93,8 @@ def predict_random():
         videoDuration=video["duration"],
         ground_truth=ground_truth,
         predictions_bert=predictions_bert,
-        predictions_video=predictions_video
+        predictions_video=predictions_video,
+        predictions_fusion=predictions_fusion
     )
 
 
@@ -103,8 +108,11 @@ def view_prediction(videoid):
     ground_truth = create_ground_truth(video)
 
     # get predictions from both models
-    predictions_bert = bert_evaluator.evaluate(video)
-    predictions_video = video_evaluator.evaluate(videoid)
+    predictions_bert = torch.tensor(bert_evaluator.evaluate(video))
+    predictions_video = torch.tensor(video_evaluator.evaluate(videoid)[:len(ground_truth)])
+
+    # weighted fusion of both models
+    predictions_fusion = (0.9 * predictions_bert) + (0.1 * predictions_video)
 
     # pass to render engine
     return render_template(
@@ -113,5 +121,6 @@ def view_prediction(videoid):
         videoDuration=video["duration"],
         ground_truth=ground_truth,
         predictions_bert=predictions_bert,
-        predictions_video=predictions_video
+        predictions_video=predictions_video,
+        predictions_fusion=predictions_fusion
     )

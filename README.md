@@ -120,3 +120,6 @@ Data explorer is a simple flask application that can be used to view and evaluat
 Before running, make sure that you set your ````CUDA_VISIBLE_DEVICES```` correctly and have already trained both the video and the text based model. After starting data explorer simply open your browser at ```http://localhost:5543```.
 Data explorer will choose a random video which is shown at the top of the page. Below the video ground truth as well as predictions can be found. Each 5 pixels from top to bottom represents 1 second of the video
 with green being normal video and red being a sponsor segment.
+
+
+export TOKENIZERS_PARALLELISM=false
