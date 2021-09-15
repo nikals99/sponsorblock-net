@@ -117,9 +117,8 @@ To evaluate a trained model further you can use the evaluation script in the ```
 
 # Data explorer
 Data explorer is a simple flask application that can be used to view and evaluate samples from the validation set. It can be run by executing ```run.sh``` inside of the ```data_explorer``` directory.
-Before running, make sure that you set your ````CUDA_VISIBLE_DEVICES```` correctly and have already trained both the video and the text based model. After starting data explorer simply open your browser at ```http://localhost:5543```.
+Before running, make sure that you set your ````CUDA_VISIBLE_DEVICES```` correctly and have already trained both the video and the text based model. Since the tokenizer from BERT has problems with parallelism set ```export TOKENIZERS_PARALLELISM=false``` to avoid excessive warnings. After starting data explorer simply open your browser at ```http://localhost:5543```.
 Data explorer will choose a random video which is shown at the top of the page. Below the video ground truth as well as predictions can be found. Each 5 pixels from top to bottom represents 1 second of the video
-with green being normal video and red being a sponsor segment.
+with green being normal video and red being a sponsor segment. An example can be seen below.
 
-
-export TOKENIZERS_PARALLELISM=false
+<img src="images/data_explorer.png" alt="data_explorer" width="400"/>
