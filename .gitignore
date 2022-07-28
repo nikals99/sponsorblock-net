@@ -3,3 +3,4 @@ data/
 venv
 .vscode
 **/__pycache__
+.idea
